@@ -10,7 +10,16 @@ INSERTAR REGISTROS
 
 @section("contenido")
 
-<form method="post" action="/productos">
+
+    <form method="POST" action="/productos" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td>
+                    <input accept="image/*" type="file" name="file" >
+                </td>
+            </tr>
+        </table>
+
 <table>
     <tr>
         <td>Nombre:</td>
@@ -39,11 +48,18 @@ INSERTAR REGISTROS
        <td> <input type="submit" name="enviar" values="enviar"></td> 
        <td><input type="reset" name="Borrar" value="Borrar"></td>
     </tr>
-    
-    
 </table>
-   
 </form>
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 @endsection
 

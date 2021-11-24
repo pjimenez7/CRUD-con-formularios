@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 class ProductosController extends Controller
@@ -33,8 +34,11 @@ class ProductosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
+
+   /*   $this->validate($request, ['Seccion'=>'required', 'Precio'=>'required' ]); Forma antigua de hacerlo */
+   /*
         $producto = new Producto; 
         $producto->NombreArticulo=$request->NombreArticulo;
         $producto->Seccion=$request->Seccion;
@@ -42,6 +46,15 @@ class ProductosController extends Controller
         $producto->Fecha=$request->Fecha;
         $producto->PaisOrigen=$request->PaisOrigen;
         $producto->save();
+        */
+        $entrada = $request->all ();
+        if($archivo=$request->file('file'))
+        {
+            $nombre = $archivo->getClientOriginalName();
+            $archivo -> move ('images', $nombre);
+            $entrada['ruta'] = $nombre;
+        }
+        Producto::create ($entrada);
     }
 
     /**
